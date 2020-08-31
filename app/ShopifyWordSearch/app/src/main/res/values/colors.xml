@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+
+    <color name="background">#D9D9D9</color>
+
+    <color name="icon_primary">#000000</color>
+    <color name="icon_secondary">#CC000000</color>
+
+    <color name="text_primary">#000000</color>
+    <color name="text_secondary">#CC000000</color>
+
+    <color name="board_background">#20FFFFFF</color>
+
+    <color name="overlay">#CC000000</color>
+    <color name="divider">#33000000</color>
+
+    <color name="status_background">#33000000</color>
+
+    <!-- Brand specific colors -->
+    <color name="shopify_logo_text">#000000</color>
+    <color name="brand1">#264653</color>
+</resources>

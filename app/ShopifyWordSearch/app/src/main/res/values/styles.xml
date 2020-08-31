@@ -1,0 +1,80 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:statusBarColor">@color/status_background</item>
+        <item name="android:windowBackground">@color/background</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.SplashScreen">
+        <item name="android:windowBackground">@color/brand1</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+    <!-- Text Styles -->
+    <style name="AppTheme.TextAppearance" parent="TextAppearance.AppCompat"/>
+
+    <style name="body_text" parent="AppTheme.TextAppearance">
+        <item name="android:textSize">@dimen/body_text_size</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+
+    <style name="header1" parent="AppTheme.TextAppearance">
+        <item name="android:textSize">@dimen/header1_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="header2" parent="AppTheme.TextAppearance">
+        <item name="android:textSize">@dimen/header2_text_size</item>
+    </style>
+
+    <style name="header3" parent="AppTheme.TextAppearance">
+        <item name="android:textSize">@dimen/header3_text_size</item>
+    </style>
+
+    <style name="button_text" parent="AppTheme.TextAppearance">
+        <item name="android:textSize">@dimen/header3_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="metadata_title1" parent="AppTheme.TextAppearance">
+        <item name="android:textSize">@dimen/metadata_title1_size</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="metadata_title2" parent="AppTheme.TextAppearance">
+        <item name="android:textSize">@dimen/metadata_title2_size</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="metadata_body1_primary" parent="AppTheme.TextAppearance">
+        <item name="android:textSize">@dimen/metadata_body1_size</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+
+    <style name="metadata_body1_secondary" parent="AppTheme.TextAppearance">
+        <item name="android:textSize">@dimen/metadata_body1_size</item>
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
+
+    <style name="metadata_body2" parent="AppTheme.TextAppearance">
+        <item name="android:textSize">@dimen/metadata_body2_size</item>
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
+    
+</resources>
