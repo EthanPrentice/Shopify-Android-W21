@@ -1,4 +1,4 @@
-package com.ethanprentice.myapplication
+package com.ethanprentice.shopifywordsearch
 
 import android.content.Context
 import android.content.Intent

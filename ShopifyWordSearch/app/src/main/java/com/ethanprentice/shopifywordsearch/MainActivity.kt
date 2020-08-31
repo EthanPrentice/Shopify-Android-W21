@@ -1,4 +1,4 @@
-package com.ethanprentice.myapplication
+package com.ethanprentice.shopifywordsearch
 
 import android.os.Bundle
 
