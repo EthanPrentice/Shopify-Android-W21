@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatDelegate
 
-class SplashActivity : WordSearchActivity() {
+class SplashActivity : WSActivity() {
 
     private val handler = Handler()
 

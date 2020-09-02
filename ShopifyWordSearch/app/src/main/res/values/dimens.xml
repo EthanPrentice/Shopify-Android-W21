@@ -29,7 +29,7 @@
     <dimen name="header3_text_size">18sp</dimen>
 
     <dimen name="metadata_title1_size">24sp</dimen>
-    <dimen name="metadata_title2_size">18sp</dimen>
+    <dimen name="metadata_title2_size">20sp</dimen>
     <dimen name="metadata_body1_size">18sp</dimen>
     <dimen name="metadata_body2_size">14sp</dimen>
 

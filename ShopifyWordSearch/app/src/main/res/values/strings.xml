@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Shopify Word Search</string>
-    <string name="word_search">Intern Word Search</string>
+    <string name="intern_word_search">Intern Word Search</string>
+    <string name="word_search">Word Search</string>
+
     <string name="full_name">Ethan Prentice</string>
 
 

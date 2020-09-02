@@ -28,7 +28,7 @@ class WordSearch {
     }
 
     private fun generateBoard() {
-        val wordList = WORD_LIST.shuffled()
+        val wordList = WORD_LIST_LOWERCASE.shuffled()
 
         val placedWords = placeWord(board, wordList, 0)
         if (placedWords) {
@@ -47,6 +47,21 @@ class WordSearch {
         else {
             Log.e(TAG, "Word search could not be generated!!")
         }
+
+        words.sortBy { it.string }
+    }
+
+    fun shuffleBoard() {
+        // Reset board
+        for (i in board.indices) {
+            for (j in board[i].indices) {
+                board[i][j] = EMPTY_CHAR
+            }
+        }
+
+        words.clear()
+
+        generateBoard()
     }
 
     private fun fillEmptyTiles() {
@@ -140,6 +155,8 @@ class WordSearch {
                             currentCoords.x += word.angle.getXDelta()
                             currentCoords.y += word.angle.getYDelta()
                         }
+
+                        word.string = getFormattedWord(word.string)!!
                         words.add(word)
 
                         return true
@@ -157,16 +174,29 @@ class WordSearch {
         return words
     }
 
+    fun getFormattedWord(word: String): String? {
+        return when (val index = WORD_LIST_LOWERCASE.indexOf(word)) {
+            -1 -> null
+            else -> WORD_LIST[index]
+        }
+    }
+
     companion object {
         private const val TAG = "WordSearch"
 
         private val ALPHABET = CharArray(26) { 'a' + it }
 
         private val WORD_LIST = listOf(
-            "swift", "kotlin", "objectivec",
-            "variable", "java", "mobile", "shopify",
-            "ecommerce", "waterloo", "android"
+            "Swift", "Kotlin", "Objective-C",
+            "Variable", "Java", "Mobile", "Shopify",
+            "E-Commerce", "Waterloo", "Android"
         )
+
+        private val WORD_LIST_LOWERCASE = WORD_LIST.map { word ->
+            word.toLowerCase().filter { char ->
+                char in 'a'..'z'
+            }
+        }
 
         private val WORD_LIST_INTENSIVE = listOf( // Debug Only
             "aaaaaaaaaa",

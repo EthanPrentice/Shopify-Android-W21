@@ -12,9 +12,14 @@
     <color name="text_primary">#000000</color>
     <color name="text_secondary">#CC000000</color>
 
-    <color name="board_background">#20FFFFFF</color>
+    <color name="button_background">#000000</color>
+    <color name="button_foreground">#FFFFFF</color>
 
-    <color name="overlay">#CC000000</color>
+    <color name="board_text">#FFFFFF</color>
+    <color name="board_background">#264653</color>
+
+    <color name="overlay_dark">#66000000</color>
+    <color name="overlay_light">#AAFFFFFF</color>
     <color name="divider">#33000000</color>
 
     <color name="status_background">#33000000</color>

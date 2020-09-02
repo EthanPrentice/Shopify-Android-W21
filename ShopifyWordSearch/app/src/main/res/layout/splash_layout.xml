@@ -20,7 +20,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/word_search"
+            android:text="@string/intern_word_search"
             android:textColor="@color/text_primary"
             android:textAppearance="@style/header2" />
 

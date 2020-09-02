@@ -8,9 +8,14 @@
     <color name="text_primary">#FFFFFF</color>
     <color name="text_secondary">#CCFFFFFF</color>
 
-    <color name="board_background">#20000000</color>
+    <color name="button_background">#FFFFFF</color>
+    <color name="button_foreground">#000000</color>
 
-    <color name="overlay">#CCFFFFFF</color>
+    <color name="board_text">#000000</color>
+    <color name="board_background">#C0D8E2</color>
+
+    <color name="overlay_dark">#AAFFFFFF</color>
+    <color name="overlay_light">#66000000</color>
     <color name="divider">#33FFFFFF</color>
 
     <!-- Brand specific colors -->

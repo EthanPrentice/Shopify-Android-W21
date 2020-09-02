@@ -2,9 +2,11 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/board_background</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="buttonTextStyle">@style/button_text</item>
 
         <item name="android:statusBarColor">@color/status_background</item>
         <item name="android:windowBackground">@color/background</item>
@@ -45,6 +47,10 @@
         <item name="android:textSize">@dimen/header3_text_size</item>
     </style>
 
+    <style name="board_text" parent="header3">
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
     <style name="button_text" parent="AppTheme.TextAppearance">
         <item name="android:textSize">@dimen/header3_text_size</item>
         <item name="android:textStyle">bold</item>
@@ -53,7 +59,7 @@
     <style name="metadata_title1" parent="AppTheme.TextAppearance">
         <item name="android:textSize">@dimen/metadata_title1_size</item>
         <item name="android:textColor">@color/text_primary</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
     <style name="metadata_title2" parent="AppTheme.TextAppearance">
@@ -75,6 +81,22 @@
     <style name="metadata_body2" parent="AppTheme.TextAppearance">
         <item name="android:textSize">@dimen/metadata_body2_size</item>
         <item name="android:textColor">@color/text_secondary</item>
+    </style>
+
+    <!-- Component styles -->
+    <style name="word_list">
+        <item name="colorPrimary">@color/board_background</item> <!-- Overscroll highlight -->
+        <item name="android:numColumns">2</item>
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:stretchMode">columnWidth</item>
+        <item name="android:horizontalSpacing">@dimen/LU_1</item>
+        <item name="android:verticalSpacing">@dimen/LU_1</item>
+    </style>
+
+    <style name="board_view">
+        <item name="android:stretchMode">columnWidth</item>
+        <item name="android:horizontalSpacing">@dimen/LU_0</item>
+        <item name="android:verticalSpacing">@dimen/LU_0</item>
     </style>
     
 </resources>
