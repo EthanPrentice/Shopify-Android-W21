@@ -18,6 +18,10 @@
     <color name="overlay_light">#66000000</color>
     <color name="divider">#33FFFFFF</color>
 
+    <!-- Status colors -->
+    <color name="status_negative">#D31414</color>
+    <color name="status_positive">#0FB350</color>
+
     <!-- Brand specific colors -->
     <color name="shopify_logo_text">#FFFFFF</color>
 </resources>

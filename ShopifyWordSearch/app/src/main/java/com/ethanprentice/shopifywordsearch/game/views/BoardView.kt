@@ -6,12 +6,15 @@ import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.GridView
+import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.setPadding
 import com.ethanprentice.shopifywordsearch.R
+import com.ethanprentice.shopifywordsearch.game.board.BoardCoords
 import com.ethanprentice.shopifywordsearch.game.board.WordSearch
 import com.ethanprentice.shopifywordsearch.util.px
 
@@ -22,6 +25,7 @@ class BoardView(context: Context, attrs: AttributeSet?, defStyle: Int) : GridVie
     private var wordSearch: WordSearch? = null
 
     private val flattenedBoard = mutableListOf<Char>()
+
 
     private val boardAdapter
         get() = adapter as BoardAdapter
@@ -49,6 +53,10 @@ class BoardView(context: Context, attrs: AttributeSet?, defStyle: Int) : GridVie
         boardAdapter.notifyDataSetChanged()
 
         numColumns = board.size
+    }
+
+    override fun performClick(): Boolean {
+        return super.performClick()
     }
 
     // Force BoardView to be square
@@ -107,6 +115,31 @@ class BoardView(context: Context, attrs: AttributeSet?, defStyle: Int) : GridVie
             }
         }
 
+    }
+
+    /**
+     * @return the appropriate board coordinates based on screen coordinates
+     */
+    fun coordsToBoardCoords(x: Int, y: Int): BoardCoords? {
+        val startX = PADDING.px
+        val startY = PADDING.px
+        val endX = measuredWidth - PADDING.px
+        val endY = measuredHeight - PADDING.px
+
+        // if out of bounds for a tile, return null
+        if (x !in startX..endX || y !in startY..endY) {
+            return null
+        }
+
+        return BoardCoords(
+            (x - startX) / tileSize,
+            (y - startY) / tileSize
+        )
+    }
+
+    fun getTileAt(boardCoords: BoardCoords): TextView? {
+        val position = numColumns * boardCoords.y + boardCoords.x
+        return getChildAt(position) as? TextView
     }
 
     companion object {

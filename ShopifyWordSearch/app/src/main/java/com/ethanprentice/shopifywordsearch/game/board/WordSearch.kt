@@ -28,7 +28,7 @@ class WordSearch {
     }
 
     private fun generateBoard() {
-        val wordList = WORD_LIST_LOWERCASE.shuffled()
+        val wordList = WORD_LIST
 
         val placedWords = placeWord(board, wordList, 0)
         if (placedWords) {
@@ -79,9 +79,9 @@ class WordSearch {
      */
     private fun getPossibleCoords(word: String, angle: WordAngle): List<BoardCoords> {
         fun getRange(direction: Int) =  when(direction) {
-            1 -> 0..(BOARD_SIZE - word.length)
+            1 -> 0..(BOARD_SIZE - Word.getFormattedLength(word))
             0 -> 0 until BOARD_SIZE
-            -1 -> (word.length - 1) until BOARD_SIZE
+            -1 -> (Word.getFormattedLength(word) - 1) until BOARD_SIZE
             else -> IntRange.EMPTY
         }
 
@@ -102,9 +102,9 @@ class WordSearch {
     private fun canPlaceWord(board: Array<CharArray>, word: Word): Boolean {
         val currentCoords = BoardCoords(word.startingCoords.x, word.startingCoords.y)
 
-        for (i in 0 until word.length) {
+        for (i in 0 until word.formattedLength) {
             val tile = board[currentCoords.y][currentCoords.x]
-            if (!(tile == EMPTY_CHAR || tile == word[i])) {
+            if (!(tile == EMPTY_CHAR || tile == word.formattedString[i])) {
                 return false
             }
 
@@ -136,8 +136,8 @@ class WordSearch {
                 if (canPlaceWord(tmpBoard, word)) {
                     // if the word can be placed on the temp board, place it
                     val currentCoords = BoardCoords(word.startingCoords.x, word.startingCoords.y)
-                    for (i in 0 until word.length) {
-                        tmpBoard[currentCoords.y][currentCoords.x] = word[i]
+                    for (i in 0 until word.formattedLength) {
+                        tmpBoard[currentCoords.y][currentCoords.x] = word.formattedString[i]
 
                         currentCoords.x += word.angle.getXDelta()
                         currentCoords.y += word.angle.getYDelta()
@@ -149,14 +149,13 @@ class WordSearch {
                         currentCoords.x = word.startingCoords.x
                         currentCoords.y = word.startingCoords.y
 
-                        for (i in 0 until word.length) {
-                            this.board[currentCoords.y][currentCoords.x] = word[i]
+                        for (i in 0 until word.formattedLength) {
+                            this.board[currentCoords.y][currentCoords.x] = word.formattedString[i]
 
                             currentCoords.x += word.angle.getXDelta()
                             currentCoords.y += word.angle.getYDelta()
                         }
 
-                        word.string = getFormattedWord(word.string)!!
                         words.add(word)
 
                         return true
@@ -174,29 +173,16 @@ class WordSearch {
         return words
     }
 
-    fun getFormattedWord(word: String): String? {
-        return when (val index = WORD_LIST_LOWERCASE.indexOf(word)) {
-            -1 -> null
-            else -> WORD_LIST[index]
-        }
-    }
-
     companion object {
         private const val TAG = "WordSearch"
 
-        private val ALPHABET = CharArray(26) { 'a' + it }
+        private val ALPHABET = 'a'..'z'
 
         private val WORD_LIST = listOf(
             "Swift", "Kotlin", "Objective-C",
             "Variable", "Java", "Mobile", "Shopify",
             "E-Commerce", "Waterloo", "Android"
         )
-
-        private val WORD_LIST_LOWERCASE = WORD_LIST.map { word ->
-            word.toLowerCase().filter { char ->
-                char in 'a'..'z'
-            }
-        }
 
         private val WORD_LIST_INTENSIVE = listOf( // Debug Only
             "aaaaaaaaaa",
@@ -212,7 +198,7 @@ class WordSearch {
             "abcdef"
         )
 
-        private const val BOARD_SIZE = 10
+        const val BOARD_SIZE = 10
         private const val EMPTY_CHAR = '*'
 
         private fun copy2DArray(src: Array<CharArray>, dst: Array<CharArray>) {

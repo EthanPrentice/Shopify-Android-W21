@@ -24,6 +24,10 @@
 
     <color name="status_background">#33000000</color>
 
+    <!-- Status colors -->
+    <color name="status_negative">#D31414</color>
+    <color name="status_positive">#0FB350</color>
+
     <!-- Brand specific colors -->
     <color name="shopify_logo_text">#000000</color>
     <color name="brand1">#264653</color>

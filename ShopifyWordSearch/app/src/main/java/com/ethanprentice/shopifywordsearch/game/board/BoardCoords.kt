@@ -7,4 +7,11 @@ data class BoardCoords(
     override fun toString(): String {
         return "($x, $y)"
     }
+
+    override fun equals(other: Any?): Boolean {
+        return when (other) {
+            is BoardCoords -> x == other.x && y == other.y
+            else -> false
+        }
+    }
 }
