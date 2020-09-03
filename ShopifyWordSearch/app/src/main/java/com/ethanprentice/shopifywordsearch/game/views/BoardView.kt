@@ -118,16 +118,16 @@ class BoardView(context: Context, attrs: AttributeSet?, defStyle: Int) : GridVie
     }
 
     /**
-     * @return the appropriate board coordinates based on screen coordinates
+     * @return the appropriate board coordinates based on view-level coordinates
      */
     fun coordsToBoardCoords(x: Int, y: Int): BoardCoords? {
         val startX = PADDING.px
         val startY = PADDING.px
-        val endX = measuredWidth - PADDING.px
-        val endY = measuredHeight - PADDING.px
+        val endX = measuredWidth - 2 * PADDING.px
+        val endY = measuredHeight - 2 * PADDING.px
 
         // if out of bounds for a tile, return null
-        if (x !in startX..endX || y !in startY..endY) {
+        if (x !in startX until endX || y !in startY until endY) {
             return null
         }
 
