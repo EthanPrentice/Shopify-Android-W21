@@ -57,10 +57,14 @@ class BoardLineView(context: Context, private val boardView: BoardView, val boar
 
         val tileSize = boardView.getTileAt(boardLine.startCoords)?.width ?: return
 
+        // Android will only draw one end of the line if on the same coords
+        // To get all corner radi we need to show both sides so slightly increment if this is the case
+        val sameTileFix = if (startTile == endTile) 0.1f else 0f
+
         canvas.drawLine(
             boardView.x + startTile.x + tileSize / 2,
             boardView.y + startTile.y + tileSize / 2,
-            boardView.x + endTile.x + tileSize / 2,
+            boardView.x + endTile.x + tileSize / 2 + sameTileFix,
             boardView.y + endTile.y + tileSize / 2,
             paint
         )

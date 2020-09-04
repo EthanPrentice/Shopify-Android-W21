@@ -6,12 +6,14 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.ethanprentice.shopifywordsearch.R
 import com.ethanprentice.shopifywordsearch.game.board.BoardLine
+import com.ethanprentice.shopifywordsearch.game.board.Word
 import com.ethanprentice.shopifywordsearch.game.board.WordSearch
 import com.ethanprentice.shopifywordsearch.game.views.BoardLineView
 import com.ethanprentice.shopifywordsearch.game.views.BoardView
@@ -24,6 +26,7 @@ class GameFragment : Fragment() {
     lateinit var root: ConstraintLayout
     lateinit var boardView: BoardView
     lateinit var wordListView: WordListView
+    lateinit var scoreView: TextView
 
     private var activeLine: BoardLineView? = null
     private var lineViews = mutableListOf<BoardLineView>()
@@ -41,10 +44,17 @@ class GameFragment : Fragment() {
 
         boardView = view.findViewById(R.id.board_view) as BoardView
         wordListView = view.findViewById(R.id.word_grid) as WordListView
+        scoreView = view.findViewById(R.id.score_view) as TextView
 
         model.wordSearch.observe(requireActivity(), Observer<WordSearch>{ wordSearch ->
             boardView.setWordSearch(wordSearch)
             wordListView.setWords(wordSearch.getWords())
+        })
+
+        model.foundWords.observe(requireActivity(), Observer<Set<Word>> { foundWords ->
+            val maxWords = model.wordSearch.value?.getWords()?.size ?: 0
+            scoreView.text = getString(R.string.score_text, foundWords.size, maxWords)
+            wordListView.setWordsAsFound(foundWords)
         })
 
         val shuffleBtn = view.findViewById(R.id.shuffle_btn) as WSButton
@@ -89,7 +99,9 @@ class GameFragment : Fragment() {
             MotionEvent.ACTION_CANCEL,
             MotionEvent.ACTION_OUTSIDE -> {
                 activeLine?.let { line ->
-                    if (lineFoundWord(line)) {
+                    val foundWord = lineFoundWord(line)
+                    if (foundWord != null) {
+                        model.addFoundWord(foundWord)
                         line.boardLine.type = BoardLine.Status.FOUND
 
                         model.boardLines.add(line.boardLine)
@@ -125,15 +137,15 @@ class GameFragment : Fragment() {
     }
 
     /**
-     * @return whether [lineView] contains a word from the word list
+     * @return the word line is over, if there is no such word return null
      */
-    private fun lineFoundWord(lineView: BoardLineView): Boolean {
-        val words = model.wordSearch.value?.getWords() ?: return false
+    private fun lineFoundWord(lineView: BoardLineView): Word? {
+        val words = model.wordSearch.value?.getWords() ?: return null
         words.forEach { word ->
             if (word.startingCoords == lineView.boardLine.startCoords && word.lastCoords == lineView.boardLine.endCoords) {
-                return true
+                return word
             }
         }
-        return false
+        return null
     }
 }

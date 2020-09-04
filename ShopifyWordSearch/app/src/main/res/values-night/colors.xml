@@ -18,6 +18,9 @@
     <color name="overlay_light">#66000000</color>
     <color name="divider">#33FFFFFF</color>
 
+    <!-- Found word -->
+    <color name="found_word">#6626F879</color>
+
     <!-- Status colors -->
     <color name="status_negative">#D31414</color>
     <color name="status_positive">#0FB350</color>
