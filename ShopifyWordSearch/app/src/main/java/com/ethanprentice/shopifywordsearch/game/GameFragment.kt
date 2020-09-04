@@ -142,7 +142,8 @@ class GameFragment : Fragment() {
     private fun lineFoundWord(lineView: BoardLineView): Word? {
         val words = model.wordSearch.value?.getWords() ?: return null
         words.forEach { word ->
-            if (word.startingCoords == lineView.boardLine.startCoords && word.lastCoords == lineView.boardLine.endCoords) {
+            if (word.startingCoords == lineView.boardLine.startCoords && word.lastCoords == lineView.boardLine.endCoords ||
+                word.startingCoords == lineView.boardLine.endCoords && word.lastCoords == lineView.boardLine.startCoords) {
                 return word
             }
         }
