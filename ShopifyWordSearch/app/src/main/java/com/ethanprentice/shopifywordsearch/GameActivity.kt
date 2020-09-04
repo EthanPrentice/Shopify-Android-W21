@@ -9,7 +9,7 @@ import com.ethanprentice.shopifywordsearch.game.GameOverFragment
 import com.ethanprentice.shopifywordsearch.game.GameViewModel
 
 
-class GameActivity : WSActivity(), GameOverFragment.GameOverActionListener {
+class GameActivity : WSActivity(), GameFragment.GameActionListener, GameOverFragment.GameOverActionListener {
 
     private val model: GameViewModel by viewModels()
 
@@ -20,7 +20,18 @@ class GameActivity : WSActivity(), GameOverFragment.GameOverActionListener {
         if (savedInstanceState == null) {
             val manager: FragmentManager = supportFragmentManager
             val transaction: FragmentTransaction = manager.beginTransaction()
-            transaction.add(R.id.frag_container, GameFragment(), "game_fragment")
+            transaction.add(R.id.frag_container, GameFragment(), GameFragment.TAG)
+            transaction.commit()
+        }
+    }
+
+    override fun onGameOver() {
+        // Check if a game over fragment already exists, if not add one
+        val manager = supportFragmentManager
+        val frag = manager.findFragmentByTag(GameOverFragment.TAG)
+        if (frag == null) {
+            val transaction: FragmentTransaction = manager.beginTransaction()
+            transaction.add(R.id.frag_container, GameOverFragment(), GameOverFragment.TAG)
             transaction.commit()
         }
     }

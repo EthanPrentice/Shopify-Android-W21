@@ -33,6 +33,9 @@ class GameFragment : Fragment() {
 
     private val model: GameViewModel by activityViewModels()
 
+    private val actionListener
+        get() = (activity as? GameActionListener)
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         root = inflater.inflate(R.layout.game_layout, container, false) as ConstraintLayout
         return root
@@ -57,7 +60,7 @@ class GameFragment : Fragment() {
             wordListView.setWordsAsFound(foundWords)
 
             if (foundWords.size == maxWords) {
-                showGameOverDialog()
+                actionListener?.onGameOver()
             }
         })
 
@@ -156,11 +159,8 @@ class GameFragment : Fragment() {
         return null
     }
 
-    private fun showGameOverDialog() {
-        val manager: FragmentManager = requireActivity().supportFragmentManager
-        val transaction: FragmentTransaction = manager.beginTransaction()
-        transaction.add(R.id.frag_container, GameOverFragment(), GameOverFragment.TAG)
-        transaction.commit()
+    interface GameActionListener {
+        fun onGameOver()
     }
 
     companion object {
