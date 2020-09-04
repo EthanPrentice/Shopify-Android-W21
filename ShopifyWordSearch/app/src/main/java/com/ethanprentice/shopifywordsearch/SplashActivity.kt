@@ -18,7 +18,7 @@ class SplashActivity : WSActivity() {
         setContentView(R.layout.splash_layout)
 
         handler.postDelayed({
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, GameActivity::class.java)
             startActivity(intent)
             overridePendingTransition(0, R.anim.slide_fade_out)
         }, DELAY_MS)

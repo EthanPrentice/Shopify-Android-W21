@@ -2,14 +2,14 @@ package com.ethanprentice.shopifywordsearch.game
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.*
 import androidx.lifecycle.Observer
 import com.ethanprentice.shopifywordsearch.R
 import com.ethanprentice.shopifywordsearch.game.board.BoardLine
@@ -31,7 +31,7 @@ class GameFragment : Fragment() {
     private var activeLine: BoardLineView? = null
     private var lineViews = mutableListOf<BoardLineView>()
 
-    private val model: GameViewModel by viewModels()
+    private val model: GameViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         root = inflater.inflate(R.layout.game_layout, container, false) as ConstraintLayout
@@ -55,12 +55,15 @@ class GameFragment : Fragment() {
             val maxWords = model.wordSearch.value?.getWords()?.size ?: 0
             scoreView.text = getString(R.string.score_text, foundWords.size, maxWords)
             wordListView.setWordsAsFound(foundWords)
+
+            if (foundWords.size == maxWords) {
+                showGameOverDialog()
+            }
         })
 
         val shuffleBtn = view.findViewById(R.id.shuffle_btn) as WSButton
         shuffleBtn.setOnClickListener {
             model.shuffleBoard()
-            clearLines()
         }
 
         boardView.setOnTouchListener { _, event ->
@@ -68,11 +71,24 @@ class GameFragment : Fragment() {
             true
         }
 
-        model.boardLines.forEach { line ->
-            val lineView = BoardLineView(requireContext(), boardView, line)
-            lineViews.add(lineView)
-            root.addView(lineView)
-        }
+        model.boardLines.observe(requireActivity(), Observer<Set<BoardLine>> { boardLines ->
+            // Check for deletions
+            lineViews.forEach { lineView ->
+                if (!boardLines.contains(lineView.boardLine)) {
+                    root.removeView(lineView)
+                }
+            }
+
+            // Check for additions
+            val existingBoardLines = lineViews.map { it.boardLine }
+            boardLines.forEach { boardLine ->
+                if (!existingBoardLines.contains(boardLine)) {
+                    val newView = BoardLineView(requireContext(), boardView, boardLine)
+                    lineViews.add(newView)
+                    root.addView(newView)
+                }
+            }
+        })
     }
 
     /**
@@ -104,7 +120,7 @@ class GameFragment : Fragment() {
                         model.addFoundWord(foundWord)
                         line.boardLine.type = BoardLine.Status.FOUND
 
-                        model.boardLines.add(line.boardLine)
+                        model.addBoardLine(line.boardLine)
                         lineViews.add(line)
 
                         line.wordFound()
@@ -121,19 +137,9 @@ class GameFragment : Fragment() {
                         }
                     }
                 }
+                activeLine = null
             }
         }
-    }
-
-    /**
-     * Removes all lines from the board and view model
-     */
-    private fun clearLines() {
-        lineViews.forEach { line ->
-            model.boardLines.remove(line.boardLine)
-            root.removeView(line)
-        }
-        lineViews.clear()
     }
 
     /**
@@ -148,5 +154,16 @@ class GameFragment : Fragment() {
             }
         }
         return null
+    }
+
+    private fun showGameOverDialog() {
+        val manager: FragmentManager = requireActivity().supportFragmentManager
+        val transaction: FragmentTransaction = manager.beginTransaction()
+        transaction.add(R.id.frag_container, GameOverFragment(), GameOverFragment.TAG)
+        transaction.commit()
+    }
+
+    companion object {
+        const val TAG = "GameFragment"
     }
 }

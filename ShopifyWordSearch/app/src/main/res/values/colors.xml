@@ -5,6 +5,7 @@
     <color name="colorAccent">#03DAC5</color>
 
     <color name="background">#D9D9D9</color>
+    <color name="background_dialog">#BCBCBC</color>
 
     <color name="icon_primary">#000000</color>
     <color name="icon_secondary">#CC000000</color>
@@ -20,6 +21,7 @@
 
     <color name="overlay_dark">#66000000</color>
     <color name="overlay_light">#AAFFFFFF</color>
+    <color name="overlay_dialog">#66000000</color>
     <color name="divider">#33000000</color>
 
     <color name="status_background">#33000000</color>

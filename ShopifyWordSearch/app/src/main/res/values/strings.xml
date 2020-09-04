@@ -7,6 +7,8 @@
 
     <string name="score_text">%d / %d</string>
 
+    <string name="game_over">You Won!</string>
+
 
     <string name="github_link">https://GitHub.com/EthanPrentice</string>
 </resources>

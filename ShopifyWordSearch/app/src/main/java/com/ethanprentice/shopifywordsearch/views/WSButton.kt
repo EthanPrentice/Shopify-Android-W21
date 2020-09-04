@@ -14,7 +14,9 @@ import androidx.core.content.ContextCompat
 import com.ethanprentice.shopifywordsearch.R
 import com.ethanprentice.shopifywordsearch.util.ColorUtil
 
-
+/**
+ * FYI: this class was copied from another personal project of mine which is why it has more functionality than needed for this app
+ */
 class WSButton(context: Context, attrs: AttributeSet?, defStyle: Int) : FrameLayout(context, attrs, defStyle), Checkable {
     constructor(context: Context) : this(context, null, 0)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
