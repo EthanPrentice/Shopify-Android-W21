@@ -1,8 +1,10 @@
 package com.ethanprentice.shopifywordsearch.game
 
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.ethanprentice.shopifywordsearch.WSApplication
 import com.ethanprentice.shopifywordsearch.game.board.BoardLine
 import com.ethanprentice.shopifywordsearch.game.board.Word
 import com.ethanprentice.shopifywordsearch.game.board.WordSearch
@@ -30,9 +32,13 @@ class GameViewModel: ViewModel() {
         postValue(foundWordsSet)
     }
     val foundWords: LiveData<Set<Word>> = _foundWords
-    fun addFoundWord(word: Word) {
+    fun addFoundWord(word: Word): Boolean {
+        val alreadyFound = foundWordsSet.contains(word)
         foundWordsSet.add(word)
-        _foundWords.postValue(foundWordsSet)
+        if (!alreadyFound) {
+            _foundWords.postValue(foundWordsSet)
+        }
+        return alreadyFound
     }
     fun clearFoundWords() {
         foundWordsSet.clear()

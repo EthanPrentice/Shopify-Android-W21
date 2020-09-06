@@ -29,15 +29,15 @@ class BoardLineView(context: Context, private val boardView: BoardView, val boar
         paint.color = ContextCompat.getColor(context, R.color.overlay_light)
         paint.strokeCap = Paint.Cap.ROUND
 
-        if (boardLine.type == BoardLine.Status.FOUND) {
+        if (boardLine.status == BoardLine.Status.FOUND) {
             wordFound()
         }
     }
 
     /**
-     * If the word is not found in this line, display the line as red, fade it out, and remove it
+     * If a word is not found in this line, display the line as red, fade it out and call the cleanup callback
      */
-    fun wordNotFound(onAnimationEndCallback: () -> Any) {
+    private fun notFoundExitAnimation(cleanupViewCallback: () -> Any) {
         paint.color = ContextCompat.getColor(context, R.color.status_negative)
         paint.alpha = (0.75f * 255).toInt()
         invalidate()
@@ -46,9 +46,36 @@ class BoardLineView(context: Context, private val boardView: BoardView, val boar
             .setDuration(800L)
             .setListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
-                    onAnimationEndCallback()
+                    cleanupViewCallback()
                 }
             })
+    }
+
+    /**
+     * If a duplicate word is found in this line, fade it out and call the cleanup callback
+     */
+    private fun foundDuplicateExitAnimation(cleanupViewCallback: () -> Any) {
+        paint.alpha = (0.75f * 255).toInt()
+        invalidate()
+
+        animate().alpha(0f)
+            .setDuration(400L)
+            .setListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    cleanupViewCallback()
+                }
+            })
+    }
+
+    /**
+     * Run the corresponding exit animation and then call the cleanup callback
+     */
+    fun runExitAnimation(cleanupViewCallback: () -> Any) {
+        when (boardLine.status) {
+            BoardLine.Status.NOT_FOUND -> notFoundExitAnimation(cleanupViewCallback)
+            BoardLine.Status.DUPLICATE -> foundDuplicateExitAnimation(cleanupViewCallback)
+            else -> {}
+        }
     }
 
     fun wordFound() {

@@ -1,7 +1,9 @@
 package com.ethanprentice.shopifywordsearch.game.board
 
 import android.util.Log
+import java.lang.Integer.max
 import kotlin.collections.ArrayList
+import kotlin.math.abs
 
 class WordSearch {
 
@@ -171,6 +173,32 @@ class WordSearch {
 
     fun getWords(): List<Word> {
         return words
+    }
+
+    /**
+     * @return a string of the chars between startCoords and endCoords (inclusive)
+     */
+    fun getString(line: BoardLine): String? {
+        if (!line.isValidAngle()) {
+            return null
+        }
+
+        val xDelta = (line.endCoords.x - line.startCoords.x)
+        val yDelta = (line.endCoords.y - line.startCoords.y)
+        val maxDelta = max(abs(xDelta), abs(yDelta))
+
+        if (maxDelta == 0) {
+            return board[line.startCoords.y][line.startCoords.x].toString()
+        }
+
+        val xIncrement = xDelta / maxDelta
+        val yIncrement = yDelta / maxDelta
+
+        val sb = StringBuilder()
+        for (i in 0..maxDelta) {
+            sb.append(board[line.startCoords.y + i*yIncrement][line.startCoords.x + i*xIncrement])
+        }
+        return sb.toString()
     }
 
     companion object {

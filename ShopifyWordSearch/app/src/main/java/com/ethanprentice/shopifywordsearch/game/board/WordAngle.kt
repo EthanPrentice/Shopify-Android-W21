@@ -1,5 +1,8 @@
 package com.ethanprentice.shopifywordsearch.game.board
 
+import java.lang.Integer.max
+import kotlin.math.abs
+
 enum class WordAngle(
     private val xDelta: Int,
     private val yDelta: Int
@@ -18,5 +21,31 @@ enum class WordAngle(
 
     companion object {
         fun leftToRightValues() = arrayOf(DEGREES_45, DEGREES_90, DEGREES_135, DEGREES_180)
+
+        fun getAngle(startCoords: BoardCoords, endCoords: BoardCoords): WordAngle? {
+            val xDelta = (endCoords.x - startCoords.x)
+            val yDelta = (endCoords.y - startCoords.y)
+            val maxDelta = max(abs(xDelta), abs(yDelta)).toFloat()
+
+            val xFactor = xDelta / maxDelta
+            val yFactor = yDelta / maxDelta
+
+            val angle = values().find { angle ->
+                angle.xDelta.toFloat() == xFactor && angle.yDelta.toFloat() == yFactor
+            }
+            if (angle != null) {
+                return angle
+            }
+
+            if (xFactor == 0f && yFactor == 0f) {
+                return DEGREES_0
+            }
+
+            return null
+        }
+
+        fun getAngle(line: BoardLine): WordAngle? {
+            return getAngle(line.startCoords, line.endCoords)
+        }
     }
 }
