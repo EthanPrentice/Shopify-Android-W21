@@ -4,7 +4,6 @@ import android.app.Application
 
 class WSApplication : Application() {
 
-
     override fun onCreate() {
         super.onCreate()
         instance = this

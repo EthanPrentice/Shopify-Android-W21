@@ -18,6 +18,7 @@ class GameViewModel: ViewModel() {
         postValue(wordSearch)
     }
     val wordSearch: LiveData<WordSearch> = _wordSearch
+
     fun shuffleBoard() {
         _wordSearch.value?.shuffleBoard()
         _wordSearch.postValue(_wordSearch.value)
@@ -25,6 +26,7 @@ class GameViewModel: ViewModel() {
         clearBoardLines()
         clearFoundWords()
     }
+    // END OF WORD SEARCH
 
     // FOUND WORDS
     private val foundWordsSet = TreeSet<Word>{ w1, w2 -> w1.string.compareTo(w2.string) }
@@ -32,21 +34,21 @@ class GameViewModel: ViewModel() {
         postValue(foundWordsSet)
     }
     val foundWords: LiveData<Set<Word>> = _foundWords
-    fun addFoundWord(word: Word): Boolean {
-        val alreadyFound = foundWordsSet.contains(word)
+
+    fun addFoundWord(word: Word) {
         foundWordsSet.add(word)
-        if (!alreadyFound) {
-            _foundWords.postValue(foundWordsSet)
-        }
-        return alreadyFound
+         _foundWords.postValue(foundWordsSet)
     }
+
     fun clearFoundWords() {
         foundWordsSet.clear()
         _foundWords.postValue(foundWordsSet)
     }
+
     fun isWordFound(word: Word): Boolean {
         return foundWordsSet.contains(word)
     }
+    // END OF FOUND WORDS
 
     // BOARD LINES
     private val boardLinesList = mutableSetOf<BoardLine>()
@@ -54,16 +56,20 @@ class GameViewModel: ViewModel() {
         value = boardLinesList
     }
     val boardLines: LiveData<Set<BoardLine>> = _boardLines
+
     fun addBoardLine(line: BoardLine) {
         boardLinesList.add(line)
         _boardLines.postValue(boardLinesList)
     }
+
     fun removeBoardLine(line: BoardLine) {
         boardLinesList.remove(line)
         _boardLines.postValue(boardLinesList)
     }
+
     fun clearBoardLines() {
         boardLinesList.clear()
         _boardLines.postValue(boardLinesList)
     }
+    // END OF BOARD LINES
 }

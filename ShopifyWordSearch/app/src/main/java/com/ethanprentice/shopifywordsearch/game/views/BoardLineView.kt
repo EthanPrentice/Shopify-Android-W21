@@ -78,7 +78,7 @@ class BoardLineView(context: Context, private val boardView: BoardView, val boar
         }
     }
 
-    fun wordFound() {
+    private fun wordFound() {
         paint.color = ContextCompat.getColor(context, R.color.status_positive)
         paint.alpha = (0.55f * 255).toInt()
         invalidate()

@@ -25,7 +25,6 @@ class BoardView(context: Context, attrs: AttributeSet?, defStyle: Int) : GridVie
 
     private val flattenedBoard = mutableListOf<Char>()
 
-
     private val boardAdapter
         get() = adapter as BoardAdapter
 
@@ -39,26 +38,13 @@ class BoardView(context: Context, attrs: AttributeSet?, defStyle: Int) : GridVie
         setPadding(PADDING.px)
     }
 
-    fun setWordSearch(ws: WordSearch) {
-        wordSearch = ws
-        val board = ws.board
-
-        flattenedBoard.clear()
-        board.forEach { row ->
-            row.forEach { char ->
-                flattenedBoard.add(char)
-            }
-        }
-        boardAdapter.notifyDataSetChanged()
-
-        numColumns = board.size
-    }
-
     override fun performClick(): Boolean {
         return super.performClick()
     }
 
-    // Force BoardView to be square
+    /**
+     * Forces the [BoardView] to have a 1:1 aspect ratio
+     */
     override fun onMeasure(widthSpec: Int, heightSpec: Int) {
         super.onMeasure(widthSpec, heightSpec)
         val width = MeasureSpec.getSize(widthSpec)
@@ -73,37 +59,22 @@ class BoardView(context: Context, attrs: AttributeSet?, defStyle: Int) : GridVie
         setMeasuredDimension(size, size)
     }
 
-    override fun onDraw(canvas: Canvas?) {
-        super.onDraw(canvas)
-        updateTileSizes()
-    }
+    /**
+     * Sets [wordSearch] and flattens the board to update [boardAdapter]
+     */
+    fun setWordSearch(ws: WordSearch) {
+        wordSearch = ws
+        val board = ws.board
 
-    private fun updateTileSizes() {
-        for (i in firstVisiblePosition..lastVisiblePosition) {
-            val view = getChildAt(i) as TextView
-            val params = view.layoutParams
-            params.width = tileSize
-            params.height = tileSize
-            view.layoutParams = params
-        }
-    }
-
-    private inner class BoardAdapter(context: Context, flattenedBoard: List<Char>) : ArrayAdapter<Char>(context, R.layout.board_tile, flattenedBoard) {
-
-        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-            val view = (convertView as? BoardTileView) ?: run {
-                val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-                inflater.inflate(R.layout.board_tile, parent, false) as BoardTileView
-            }
-
-            return view.apply {
-                setGetTileSize {
-                    tileSize
-                }
-                text = getItem(position)!!.toUpperCase().toString()
+        flattenedBoard.clear()
+        board.forEach { row ->
+            row.forEach { char ->
+                flattenedBoard.add(char)
             }
         }
+        boardAdapter.notifyDataSetChanged()
 
+        numColumns = board.size
     }
 
     /**
@@ -126,9 +97,28 @@ class BoardView(context: Context, attrs: AttributeSet?, defStyle: Int) : GridVie
         )
     }
 
-    fun getTileAt(boardCoords: BoardCoords): TextView? {
+    fun getTileAt(boardCoords: BoardCoords): BoardTileView? {
         val position = numColumns * boardCoords.y + boardCoords.x
-        return getChildAt(position) as? TextView
+        return getChildAt(position) as? BoardTileView
+    }
+
+
+    private inner class BoardAdapter(context: Context, flattenedBoard: List<Char>) : ArrayAdapter<Char>(context, R.layout.board_tile, flattenedBoard) {
+
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+            val view = (convertView as? BoardTileView) ?: run {
+                val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                inflater.inflate(R.layout.board_tile, parent, false) as BoardTileView
+            }
+
+            return view.apply {
+                setGetTileSize {
+                    tileSize
+                }
+                text = getItem(position)!!.toUpperCase().toString()
+            }
+        }
+
     }
 
     companion object {

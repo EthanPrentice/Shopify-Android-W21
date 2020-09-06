@@ -22,6 +22,9 @@ enum class WordAngle(
     companion object {
         fun leftToRightValues() = arrayOf(DEGREES_45, DEGREES_90, DEGREES_135, DEGREES_180)
 
+        /**
+         * @return the angle between [startCoords] and [endCoords], null if the angle is invalid
+         */
         fun getAngle(startCoords: BoardCoords, endCoords: BoardCoords): WordAngle? {
             val xDelta = (endCoords.x - startCoords.x)
             val yDelta = (endCoords.y - startCoords.y)

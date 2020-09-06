@@ -12,6 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.*
 import androidx.lifecycle.Observer
 import com.ethanprentice.shopifywordsearch.R
+import com.ethanprentice.shopifywordsearch.game.board.BoardCoords
 import com.ethanprentice.shopifywordsearch.game.board.BoardLine
 import com.ethanprentice.shopifywordsearch.game.board.Word
 import com.ethanprentice.shopifywordsearch.game.board.WordAngle
@@ -52,11 +53,13 @@ class GameFragment : Fragment() {
         wordListView = view.findViewById(R.id.word_grid) as WordListView
         scoreView = view.findViewById(R.id.score_view) as TextView
 
+        // update boardView and wordListView if wordSearch is updated
         model.wordSearch.observe(requireActivity(), Observer<WordSearch>{ wordSearch ->
             boardView.setWordSearch(wordSearch)
             wordListView.setWords(wordSearch.getWords())
         })
 
+        // Set the counter to foundWords.size and update wordListView whenever foundWords is updated
         model.foundWords.observe(requireActivity(), Observer<Set<Word>> { foundWords ->
             val maxWords = model.wordSearch.value?.getWords()?.size ?: 0
             scoreView.text = getString(R.string.score_text, foundWords.size, maxWords)
@@ -120,6 +123,9 @@ class GameFragment : Fragment() {
         }
     }
 
+    /**
+     * Assigns a new active [BoardLineView] to [activeLine]
+     */
     private fun handleActionDown(event: MotionEvent) {
         val boardCoords = boardView.coordsToBoardCoords(event.x.toInt(), event.y.toInt()) ?: return
         val boardLine = BoardLine(boardCoords, boardCoords, BoardLine.Status.ACTIVE)
@@ -128,6 +134,9 @@ class GameFragment : Fragment() {
         root.addView(activeLine)
     }
 
+    /**
+     * Assigns [event]'s corresponding [BoardCoords] to [boardView.endCoords] so the line follows the [MotionEvent]
+     */
     private fun handleActionMove(event: MotionEvent) {
         val boardCoords = boardView.coordsToBoardCoords(event.x.toInt(), event.y.toInt()) ?: return
         activeLine?.apply {
@@ -150,7 +159,7 @@ class GameFragment : Fragment() {
                 // Word has already been found, set the correct status and play the word already found animation
                 // Also show a toast to clearly remind the user this word has already been found
                 // We mainly handle for this in the rare case where random generation creates a duplicate of a valid word
-                val alreadyFound = model.addFoundWord(foundWord)
+                val alreadyFound = model.isWordFound(foundWord)
                 if (alreadyFound) {
                     line.boardLine.status = BoardLine.Status.DUPLICATE
                     showAlreadyFoundToast(foundWord)
@@ -161,6 +170,7 @@ class GameFragment : Fragment() {
                 else {
                     // If the word has not been found yet, set the status to found and add the line to the model
                     // We remove the view, but it will be re-added in the view model observer
+                    model.addFoundWord(foundWord)
                     line.boardLine.status = BoardLine.Status.FOUND
                     model.addBoardLine(line.boardLine)
                     root.removeView(line)
@@ -187,8 +197,8 @@ class GameFragment : Fragment() {
         // Check if it is in the current word list
         val words = model.wordSearch.value?.getWords() ?: return null
         words.forEach { word ->
-            if (word.startingCoords == lineView.boardLine.startCoords && word.lastCoords == lineView.boardLine.endCoords ||
-                word.startingCoords == lineView.boardLine.endCoords && word.lastCoords == lineView.boardLine.startCoords) {
+            if (word.startingCoords == lineView.boardLine.startCoords && word.endCoords == lineView.boardLine.endCoords ||
+                word.startingCoords == lineView.boardLine.endCoords && word.endCoords == lineView.boardLine.startCoords) {
                 return@lineFoundWord word
             }
         }

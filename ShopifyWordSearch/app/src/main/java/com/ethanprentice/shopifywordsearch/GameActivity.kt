@@ -25,6 +25,9 @@ class GameActivity : WSActivity(), GameFragment.GameActionListener, GameOverFrag
         }
     }
 
+    /**
+     * On game over, create and show a GameOverFragment
+     */
     override fun onGameOver() {
         // Check if a game over fragment already exists, if not add one
         val manager = supportFragmentManager
@@ -36,13 +39,18 @@ class GameActivity : WSActivity(), GameFragment.GameActionListener, GameOverFrag
         }
     }
 
+    /**
+     * Removes the GameOverFragment and shuffles the board
+     */
     override fun playAgain() {
         viewBoard()
         model.shuffleBoard()
     }
 
+    /**
+     * Removes the GameOverFragment
+     */
     override fun viewBoard() {
-        // Remove game over fragment
         val manager = supportFragmentManager
         val frag = manager.findFragmentByTag(GameOverFragment.TAG)
         (frag as? GameOverFragment)?.slideContentDown {

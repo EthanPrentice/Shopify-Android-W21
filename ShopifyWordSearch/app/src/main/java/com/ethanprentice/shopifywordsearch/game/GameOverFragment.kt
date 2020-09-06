@@ -21,7 +21,7 @@ class GameOverFragment : Fragment() {
     lateinit var root: FrameLayout
     lateinit var content: ConstraintLayout
 
-    val actionListener
+    private val actionListener
         get() = (activity as? GameOverActionListener)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -29,6 +29,8 @@ class GameOverFragment : Fragment() {
         root = inflater.inflate(R.layout.game_over_layout, container, false) as FrameLayout
         content = root.findViewById(R.id.content)
 
+        // Override touches on fragments behind this one
+        // Otherwise the user can interact with GameFragment when the GameOverFragment pops up
         root.setOnTouchListener { v, event -> true }
 
         val playAgainBtn = root.findViewById(R.id.play_again_btn) as WSButton
@@ -63,6 +65,9 @@ class GameOverFragment : Fragment() {
         }
     }
 
+    /**
+     * Enter animation
+     */
     private fun slideContentUp() {
         content.alpha = 0f
         content.y = root.height.toFloat()
@@ -101,6 +106,9 @@ class GameOverFragment : Fragment() {
             })
     }
 
+    /**
+     * Exit animation
+     */
     fun slideContentDown(onAnimationEndCallback: () -> Any) {
         val displacement = resources.getDimensionPixelOffset(R.dimen.LU_3).toFloat()
 

@@ -12,6 +12,9 @@ class BoardTileView(context: Context, attrs: AttributeSet?, defStyle: Int) : App
     private val tileSize: Int
         get() = getTileSize?.invoke() ?: 0
 
+    /**
+     * Ensures that the board tiles are the correct sizing once the [BoardView] is measured
+     */
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
 

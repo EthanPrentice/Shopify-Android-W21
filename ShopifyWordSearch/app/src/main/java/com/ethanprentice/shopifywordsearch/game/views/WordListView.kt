@@ -18,7 +18,10 @@ class WordListView(context: Context, attrs: AttributeSet?, defStyle: Int) : Grid
     constructor(context: Context) : this(context, null, 0)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
 
-    // Word -> if word found
+    /**
+     * Maps words to whether or not they've been found
+     * Use a TreeMap to guarantee correct ordering in the adapter
+     */
     private val words = TreeMap<Word, Boolean> { w1, w2 -> w1.string.compareTo(w2.string) }
 
     private val wordListAdapter
@@ -29,6 +32,9 @@ class WordListView(context: Context, attrs: AttributeSet?, defStyle: Int) : Grid
         adapter = WordListAdapter(context, words)
     }
 
+    /**
+     * Populates [words] with [wordList] as keys with false as the default entry and notifies the adapter of changes
+     */
     fun setWords(wordList: Collection<Word>) {
         words.clear()
         for (word in wordList) {
