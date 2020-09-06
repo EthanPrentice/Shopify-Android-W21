@@ -2,7 +2,6 @@ package com.ethanprentice.shopifywordsearch.game
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -76,8 +75,11 @@ class GameFragment : Fragment() {
 
         model.boardLines.observe(requireActivity(), Observer<Set<BoardLine>> { boardLines ->
             // Check for deletions
-            lineViews.forEach { lineView ->
+            val iter = lineViews.iterator()
+            while(iter.hasNext()){
+                val lineView = iter.next()
                 if (!boardLines.contains(lineView.boardLine)) {
+                    iter.remove()
                     root.removeView(lineView)
                 }
             }
@@ -87,8 +89,8 @@ class GameFragment : Fragment() {
             boardLines.forEach { boardLine ->
                 if (!existingBoardLines.contains(boardLine)) {
                     val newView = BoardLineView(requireContext(), boardView, boardLine)
-                    lineViews.add(newView)
                     root.addView(newView)
+                    lineViews.add(newView)
                 }
             }
         })
@@ -121,19 +123,16 @@ class GameFragment : Fragment() {
                     val foundWord = lineFoundWord(line)
                     if (foundWord != null) {
                         model.addFoundWord(foundWord)
+
                         line.boardLine.type = BoardLine.Status.FOUND
-
                         model.addBoardLine(line.boardLine)
-                        lineViews.add(line)
-
-                        line.wordFound()
+                        root.removeView(line)
                     }
                     else {
                         line.boardLine.type = BoardLine.Status.NOT_FOUND
 
                         // Note we do not add lines to the view model if they will disappear soon anyways
                         lineViews.add(line)
-
                         line.wordNotFound { // onAnimationEnd callback
                             lineViews.remove(line)
                             root.removeView(line)

@@ -20,8 +20,15 @@ class BoardLine(val startCoords: BoardCoords, var endCoords: BoardCoords, var ty
     override fun equals(other: Any?): Boolean {
         other ?: return false
         return when (other) {
-            is BoardLine -> startCoords == other.startCoords && endCoords == other.endCoords
+            is BoardLine -> {
+                (startCoords == other.startCoords && endCoords == other.endCoords) ||
+                (startCoords == other.endCoords && endCoords == other.startCoords)
+            }
             else -> false
         }
+    }
+
+    override fun toString(): String {
+        return "[$startCoords, $endCoords]"
     }
 }
