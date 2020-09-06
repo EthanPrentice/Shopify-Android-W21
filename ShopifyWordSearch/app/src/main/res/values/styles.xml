@@ -47,8 +47,10 @@
         <item name="android:textSize">@dimen/header3_text_size</item>
     </style>
 
-    <style name="board_text" parent="header3">
+    <style name="board_text" parent="AppTheme.TextAppearance">
         <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/board_text</item>
+        <item name="android:textAlignment">center</item>
     </style>
 
     <style name="button_text" parent="AppTheme.TextAppearance">
@@ -97,6 +99,15 @@
         <item name="android:stretchMode">columnWidth</item>
         <item name="android:horizontalSpacing">@dimen/LU_0</item>
         <item name="android:verticalSpacing">@dimen/LU_0</item>
+    </style>
+
+    <style name="board_tile">
+        <item name="android:padding">@dimen/tile_padding</item>
+        <item name="android:textAppearance">@style/board_text</item>
+        <item name="autoSizeTextType">uniform</item>
+        <item name="autoSizeMinTextSize">12sp</item>
+        <item name="autoSizeMaxTextSize">60sp</item>
+        <item name="autoSizeStepGranularity">2sp</item>
     </style>
     
 </resources>

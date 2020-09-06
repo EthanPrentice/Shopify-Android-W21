@@ -9,15 +9,22 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import com.ethanprentice.shopifywordsearch.R
 import com.ethanprentice.shopifywordsearch.game.board.BoardLine
-import com.ethanprentice.shopifywordsearch.util.px
+import kotlin.math.sqrt
 
 
 class BoardLineView(context: Context, private val boardView: BoardView, val boardLine: BoardLine) : View(context) {
 
     private var paint = Paint()
 
+    private val strokeWidth: Float
+        get() {
+            val tileSize = boardView.columnWidth
+            val tilePadding = 2 * context.resources.getDimensionPixelOffset(R.dimen.tile_padding)
+            return sqrt(2f) * (tileSize - tilePadding) / 2
+        }
+
     init {
-        paint.strokeWidth = 20.px.toFloat()
+        paint.strokeWidth = strokeWidth
         paint.style = Paint.Style.FILL_AND_STROKE
         paint.color = ContextCompat.getColor(context, R.color.overlay_light)
         paint.strokeCap = Paint.Cap.ROUND
@@ -61,11 +68,14 @@ class BoardLineView(context: Context, private val boardView: BoardView, val boar
         // To get all corner radi we need to show both sides so slightly increment if this is the case
         val sameTileFix = if (startTile == endTile) 0.1f else 0f
 
+        fun getX(tile: View) = boardView.x + tile.x + tileSize / 2
+        fun getY(tile: View) = boardView.y + tile.y + tileSize / 2
+
         canvas.drawLine(
-            boardView.x + startTile.x + tileSize / 2,
-            boardView.y + startTile.y + tileSize / 2,
-            boardView.x + endTile.x + tileSize / 2 + sameTileFix,
-            boardView.y + endTile.y + tileSize / 2,
+            getX(startTile),
+            getY(startTile),
+            getX(endTile) + sameTileFix,
+            getY(endTile),
             paint
         )
     }

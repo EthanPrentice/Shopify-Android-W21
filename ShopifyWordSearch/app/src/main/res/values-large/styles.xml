@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Component styles -->
+    <style name="word_list">
+        <item name="colorPrimary">@color/board_background</item> <!-- Overscroll highlight -->
+        <item name="android:numColumns">auto_fit</item>
+        <item name="android:columnWidth">@dimen/LU_8</item>
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:stretchMode">columnWidth</item>
+        <item name="android:horizontalSpacing">@dimen/LU_1</item>
+        <item name="android:verticalSpacing">@dimen/LU_1</item>
+    </style>
+
+</resources>

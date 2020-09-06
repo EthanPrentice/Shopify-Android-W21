@@ -63,13 +63,13 @@
 
     <com.ethanprentice.shopifywordsearch.game.views.WordListView
         android:id="@+id/word_grid"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginHorizontal="@dimen/LU_5"
+        android:layout_marginHorizontal="@dimen/LU_2"
         android:layout_marginBottom="@dimen/LU_1"
         style="@style/word_list"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/board_view"
+        app:layout_constraintRight_toRightOf="@id/board_view"
         app:layout_constraintTop_toBottomOf="@id/guideline"
         app:layout_constraintBottom_toTopOf="@id/score_view"
         android:layout_centerHorizontal="true"/>

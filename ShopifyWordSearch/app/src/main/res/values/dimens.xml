@@ -19,6 +19,8 @@
     <dimen name="LU_6">84dp</dimen>
     <dimen name="LU_6_5">96dp</dimen>
     <dimen name="LU_7">108dp</dimen>
+    <dimen name="LU_7_5">130dp</dimen>
+    <dimen name="LU_8">142dp</dimen>
     <dimen name="LU_10">180dp</dimen>
     <dimen name="LU_12">228dp</dimen>
 
@@ -32,5 +34,7 @@
     <dimen name="metadata_title2_size">20sp</dimen>
     <dimen name="metadata_body1_size">18sp</dimen>
     <dimen name="metadata_body2_size">14sp</dimen>
+
+    <dimen name="tile_padding">@dimen/LU_1</dimen>
 
 </resources>
