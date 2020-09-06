@@ -1,30 +1,50 @@
 package com.ethanprentice.shopifywordsearch.game
 
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ethanprentice.shopifywordsearch.WSApplication
 import com.ethanprentice.shopifywordsearch.game.board.BoardLine
 import com.ethanprentice.shopifywordsearch.game.board.Word
 import com.ethanprentice.shopifywordsearch.game.board.WordSearch
+import com.ethanprentice.shopifywordsearch.util.BusyUiManager
 import java.util.*
+import kotlin.concurrent.thread
 
 class GameViewModel: ViewModel() {
 
     // WORD SEARCH
-    private val _wordSearch = MutableLiveData<WordSearch>().apply {
-        val wordSearch = WordSearch()
-        postValue(wordSearch)
-    }
+    private val _wordSearch = MutableLiveData<WordSearch>()
     val wordSearch: LiveData<WordSearch> = _wordSearch
 
-    fun shuffleBoard() {
-        _wordSearch.value?.shuffleBoard()
-        _wordSearch.postValue(_wordSearch.value)
+    fun initWordSearch(busyUiManager: BusyUiManager) {
+        var ws: WordSearch? = null
+        busyUiManager.showUntilCondition({
+            ws != null
+        }) {
+            _wordSearch.postValue(ws)
+        }
+        thread(start=true) {
+            ws = WordSearch()
+        }
+    }
 
-        clearBoardLines()
-        clearFoundWords()
+    fun shuffleBoard(busyUiManager: BusyUiManager) {
+        val preShuffleCount = wordSearch.value?.shuffleCount ?: return
+        busyUiManager.showUntilCondition({
+            preShuffleCount != wordSearch.value?.shuffleCount
+        }) {
+            _wordSearch.postValue(_wordSearch.value)
+
+            clearBoardLines()
+            clearFoundWords()
+        }
+        thread(start=true) {
+            _wordSearch.value?.shuffleBoard()
+        }
+    }
+
+    fun isWordSearchInitialized(): Boolean {
+        return wordSearch.value != null
     }
     // END OF WORD SEARCH
 

@@ -7,6 +7,9 @@ import kotlin.math.abs
 
 class WordSearch {
 
+    var shuffleCount = 0L
+        private set
+
     // used to limit object creation when there's few possible ways to create a board
     private val tmpBoards = Array(WORD_LIST.size) {
         Array(BOARD_SIZE) {
@@ -64,6 +67,7 @@ class WordSearch {
         words.clear()
 
         generateBoard()
+        shuffleCount += 1
     }
 
     private fun fillEmptyTiles() {
@@ -212,7 +216,9 @@ class WordSearch {
             "E-Commerce", "Waterloo", "Android"
         )
 
-        private val WORD_LIST_INTENSIVE = listOf( // Debug Only
+        // Debug Only
+        // Used to test BusyUiManager for long generations that may occur more often on other phones
+        private val WORD_LIST_INTENSIVE = listOf(
             "aaaaaaaaaa",
             "bbbbbbbbbb",
             "cccccccccc",
@@ -223,7 +229,7 @@ class WordSearch {
             "hhhhhhhhhh",
             "iiiiiiiiii",
             "jjjjjjjjjj",
-            "abcdef"
+            "a"
         )
 
         const val BOARD_SIZE = 10

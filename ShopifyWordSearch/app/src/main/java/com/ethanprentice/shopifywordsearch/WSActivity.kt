@@ -4,8 +4,9 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatCallback
+import com.ethanprentice.shopifywordsearch.util.BusyUiManager
 
-open class WSActivity : AppCompatActivity(), AppCompatCallback {
+abstract class WSActivity : AppCompatActivity(), AppCompatCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,4 +27,6 @@ open class WSActivity : AppCompatActivity(), AppCompatCallback {
         super.onDestroy()
         Log.d("Activity", "onDestroy() called for ${javaClass.name}")
     }
+
+    abstract fun getBusyUiManager(): BusyUiManager?
 }

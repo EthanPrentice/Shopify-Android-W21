@@ -12,6 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.*
 import androidx.lifecycle.Observer
 import com.ethanprentice.shopifywordsearch.R
+import com.ethanprentice.shopifywordsearch.WSActivity
 import com.ethanprentice.shopifywordsearch.game.board.BoardCoords
 import com.ethanprentice.shopifywordsearch.game.board.BoardLine
 import com.ethanprentice.shopifywordsearch.game.board.Word
@@ -40,6 +41,10 @@ class GameFragment : Fragment() {
     private val actionListener
         get() = (activity as? GameActionListener)
 
+    private val wsActivity: WSActivity?
+        get() = (activity as? WSActivity)
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         root = inflater.inflate(R.layout.game_layout, container, false) as ConstraintLayout
         return root
@@ -55,24 +60,30 @@ class GameFragment : Fragment() {
 
         // update boardView and wordListView if wordSearch is updated
         model.wordSearch.observe(requireActivity(), Observer<WordSearch>{ wordSearch ->
+            wordSearch ?: return@Observer
             boardView.setWordSearch(wordSearch)
             wordListView.setWords(wordSearch.getWords())
         })
 
         // Set the counter to foundWords.size and update wordListView whenever foundWords is updated
         model.foundWords.observe(requireActivity(), Observer<Set<Word>> { foundWords ->
-            val maxWords = model.wordSearch.value?.getWords()?.size ?: 0
-            scoreView.text = getString(R.string.score_text, foundWords.size, maxWords)
-            wordListView.setWordsAsFound(foundWords)
+            if (model.isWordSearchInitialized()) {
+                val maxWords = model.wordSearch.value?.getWords()?.size ?: 0
+                scoreView.text = getString(R.string.score_text, foundWords.size, maxWords)
+                wordListView.setWordsAsFound(foundWords)
 
-            if (foundWords.size == maxWords) {
-                actionListener?.onGameOver()
+                if (foundWords.size == maxWords) {
+                    actionListener?.onGameOver()
+                }
             }
         })
 
         val shuffleBtn = view.findViewById(R.id.shuffle_btn) as WSButton
         shuffleBtn.setOnClickListener {
-            model.shuffleBoard()
+            wsActivity?.let {
+                val busyUiManager = it.getBusyUiManager() ?: return@let
+                model.shuffleBoard(busyUiManager)
+            }
         }
 
         boardView.setOnTouchListener { _, event ->

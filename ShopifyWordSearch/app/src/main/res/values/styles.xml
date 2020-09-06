@@ -1,13 +1,7 @@
 <resources>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/board_background</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-
         <item name="buttonTextStyle">@style/button_text</item>
-
         <item name="android:statusBarColor">@color/status_background</item>
         <item name="android:windowBackground">@color/background</item>
     </style>

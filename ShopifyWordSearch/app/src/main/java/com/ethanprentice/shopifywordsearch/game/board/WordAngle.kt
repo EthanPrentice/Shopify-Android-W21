@@ -30,6 +30,10 @@ enum class WordAngle(
             val yDelta = (endCoords.y - startCoords.y)
             val maxDelta = max(abs(xDelta), abs(yDelta)).toFloat()
 
+            if (maxDelta == 0f) {
+                return DEGREES_0
+            }
+
             val xFactor = xDelta / maxDelta
             val yFactor = yDelta / maxDelta
 

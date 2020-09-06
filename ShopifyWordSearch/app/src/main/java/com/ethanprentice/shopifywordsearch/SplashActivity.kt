@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatDelegate
+import com.ethanprentice.shopifywordsearch.util.BusyUiManager
 
 class SplashActivity : WSActivity() {
 
@@ -27,6 +28,10 @@ class SplashActivity : WSActivity() {
     override fun onDestroy() {
         super.onDestroy()
         handler.removeCallbacksAndMessages(null)
+    }
+
+    override fun getBusyUiManager(): BusyUiManager? {
+        return null
     }
 
     companion object {

@@ -1,15 +1,22 @@
 package com.ethanprentice.shopifywordsearch
 
+import android.content.Context
 import android.os.Bundle
+import android.util.AttributeSet
+import android.view.View
+import android.widget.FrameLayout
 import androidx.activity.viewModels
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.ethanprentice.shopifywordsearch.game.GameFragment
 import com.ethanprentice.shopifywordsearch.game.GameOverFragment
 import com.ethanprentice.shopifywordsearch.game.GameViewModel
+import com.ethanprentice.shopifywordsearch.util.BusyUiManager
 
 
 class GameActivity : WSActivity(), GameFragment.GameActionListener, GameOverFragment.GameOverActionListener {
+
+    private val busyUiManager = BusyUiManager()
 
     private val model: GameViewModel by viewModels()
 
@@ -17,12 +24,27 @@ class GameActivity : WSActivity(), GameFragment.GameActionListener, GameOverFrag
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_layout)
 
+        val rootView = findViewById<FrameLayout>(R.id.main_root)
+        busyUiManager.setActivity(this)
+        busyUiManager.setRootView(rootView)
+
         if (savedInstanceState == null) {
+            model.initWordSearch(busyUiManager)
+
             val manager: FragmentManager = supportFragmentManager
             val transaction: FragmentTransaction = manager.beginTransaction()
             transaction.add(R.id.frag_container, GameFragment(), GameFragment.TAG)
             transaction.commit()
         }
+    }
+
+    override fun onDestroy() {
+        busyUiManager.cleanup()
+        super.onDestroy()
+    }
+
+    override fun getBusyUiManager(): BusyUiManager? {
+        return busyUiManager
     }
 
     /**
@@ -44,7 +66,7 @@ class GameActivity : WSActivity(), GameFragment.GameActionListener, GameOverFrag
      */
     override fun playAgain() {
         viewBoard()
-        model.shuffleBoard()
+        model.shuffleBoard(busyUiManager)
     }
 
     /**
