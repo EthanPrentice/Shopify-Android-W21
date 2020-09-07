@@ -24,7 +24,7 @@ class BoardLineView(context: Context, private val boardView: BoardView, val boar
         }
 
     init {
-        paint.strokeWidth = strokeWidth
+        // Set stroke width in onMeasure since it relies on boardView.columnWidth
         paint.style = Paint.Style.FILL_AND_STROKE
         paint.color = ContextCompat.getColor(context, R.color.overlay_light)
         paint.strokeCap = Paint.Cap.ROUND
@@ -82,6 +82,11 @@ class BoardLineView(context: Context, private val boardView: BoardView, val boar
         paint.color = ContextCompat.getColor(context, R.color.status_positive)
         paint.alpha = (0.55f * 255).toInt()
         invalidate()
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        paint.strokeWidth = strokeWidth
     }
 
     override fun onDraw(canvas: Canvas) {

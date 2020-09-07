@@ -12,6 +12,6 @@
         android:layout_height="@dimen/LU_6"
         android:layout_gravity="center"
         android:indeterminate="true"
-        android:indeterminateTint="@color/icon_primary" />
+        android:indeterminateTint="@color/busy_ui_color" />
 
 </FrameLayout>

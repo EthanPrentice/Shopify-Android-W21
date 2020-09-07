@@ -22,6 +22,8 @@
 
     <color name="status_background">#33000000</color>
 
+    <color name="busy_ui_color">#FFFFFF</color>
+
     <!-- Found word -->
     <color name="found_word">#660FB350</color>
 

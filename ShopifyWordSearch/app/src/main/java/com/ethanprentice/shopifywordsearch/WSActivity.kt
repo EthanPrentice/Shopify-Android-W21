@@ -1,7 +1,9 @@
 package com.ethanprentice.shopifywordsearch
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatCallback
 import com.ethanprentice.shopifywordsearch.util.BusyUiManager
@@ -11,6 +13,7 @@ abstract class WSActivity : AppCompatActivity(), AppCompatCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d("Activity", "onCreate() called for ${javaClass.name}")
+        updateStatusBarIconColor()
     }
 
     override fun onResume() {
@@ -29,4 +32,22 @@ abstract class WSActivity : AppCompatActivity(), AppCompatCallback {
     }
 
     abstract fun getBusyUiManager(): BusyUiManager?
+
+    protected fun isDarkMode(): Boolean {
+        val uiModeMasked = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        return uiModeMasked == Configuration.UI_MODE_NIGHT_YES
+    }
+
+    protected fun updateStatusBarIconColor() {
+        if (isDarkMode()) {
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+        }
+        else {
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
+    }
+
+    protected fun setStatusBarColor() {
+
+    }
 }
