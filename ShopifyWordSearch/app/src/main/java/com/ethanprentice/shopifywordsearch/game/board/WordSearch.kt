@@ -1,6 +1,7 @@
 package com.ethanprentice.shopifywordsearch.game.board
 
 import android.util.Log
+import java.lang.IllegalStateException
 import java.lang.Integer.max
 import kotlin.collections.ArrayList
 import kotlin.math.abs
@@ -235,6 +236,14 @@ class WordSearch {
 
         const val BOARD_SIZE = 10
         private const val EMPTY_CHAR = '*'
+
+        init {
+            WORD_LIST.forEach { word ->
+                if (word.length > BOARD_SIZE) {
+                    throw IllegalStateException("A board size of $BOARD_SIZE cannot fit all words in the word list!")
+                }
+            }
+        }
 
         private fun copy2DArray(src: Array<CharArray>, dst: Array<CharArray>) {
             for (i in src.indices) {
