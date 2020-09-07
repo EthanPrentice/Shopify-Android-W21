@@ -3,6 +3,7 @@
 
 ## Features
 * Variable board size
+* Supports any number of words, the word list at the bottom is scrollable
 * Tracks which words the user has found, along with a total tally
 * Randomizes where the words are placed
   * In the case where there are words generated twice, this is properly handled
