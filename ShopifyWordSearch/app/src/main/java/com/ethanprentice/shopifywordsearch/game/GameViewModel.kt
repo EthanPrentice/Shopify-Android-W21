@@ -13,6 +13,7 @@ import kotlin.concurrent.thread
 class GameViewModel: ViewModel() {
 
     // WORD SEARCH
+    private var shuffleThread: Thread? = null
     private val _wordSearch = MutableLiveData<WordSearch>()
     val wordSearch: LiveData<WordSearch> = _wordSearch
 
@@ -29,18 +30,24 @@ class GameViewModel: ViewModel() {
     }
 
     fun shuffleBoard(busyUiManager: BusyUiManager) {
-        val preShuffleCount = wordSearch.value?.shuffleCount ?: return
-        busyUiManager.showUntilCondition({
-            preShuffleCount != wordSearch.value?.shuffleCount
-        }) {
-            _wordSearch.postValue(_wordSearch.value)
+        if (!isShuffling()) {
+            val preShuffleCount = wordSearch.value?.shuffleCount ?: return
+            busyUiManager.showUntilCondition({
+                preShuffleCount != wordSearch.value?.shuffleCount
+            }) {
+                _wordSearch.postValue(_wordSearch.value)
 
-            clearBoardLines()
-            clearFoundWords()
+                clearBoardLines()
+                clearFoundWords()
+            }
+            shuffleThread = thread(start=true) {
+                _wordSearch.value?.shuffleBoard()
+            }
         }
-        thread(start=true) {
-            _wordSearch.value?.shuffleBoard()
-        }
+    }
+
+    fun isShuffling(): Boolean {
+        return shuffleThread != null && shuffleThread?.isAlive == true
     }
 
     fun isWordSearchInitialized(): Boolean {

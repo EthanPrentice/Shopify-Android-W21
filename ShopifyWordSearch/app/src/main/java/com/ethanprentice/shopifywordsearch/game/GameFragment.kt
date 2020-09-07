@@ -67,7 +67,7 @@ class GameFragment : Fragment() {
 
         // Set the counter to foundWords.size and update wordListView whenever foundWords is updated
         model.foundWords.observe(requireActivity(), Observer<Set<Word>> { foundWords ->
-            if (model.isWordSearchInitialized()) {
+            if (model.isWordSearchInitialized() && !model.isShuffling()) {
                 val maxWords = model.wordSearch.value?.getWords()?.size ?: 0
                 scoreView.text = getString(R.string.score_text, foundWords.size, maxWords)
                 wordListView.setWordsAsFound(foundWords)

@@ -32,6 +32,7 @@ class WordSearch {
         generateBoard()
     }
 
+    @Synchronized
     private fun generateBoard() {
         val wordList = WORD_LIST
 
