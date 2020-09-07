@@ -56,8 +56,6 @@ class WordListView(context: Context, attrs: AttributeSet?, defStyle: Int) : Grid
     }
 
     class WordListAdapter(private val context: Context, private var data: TreeMap<Word, Boolean>) : BaseAdapter() {
-        private val keys: List<Word> = data.keys.toList()
-
         override fun getCount(): Int {
             return data.size
         }
@@ -81,6 +79,8 @@ class WordListView(context: Context, attrs: AttributeSet?, defStyle: Int) : Grid
             if (getItem(pos).value) {
                 textView.setBackgroundResource(R.drawable.found_word_bg)
             }
+
+            textView.setOnClickListener(null)
 
             return textView
         }

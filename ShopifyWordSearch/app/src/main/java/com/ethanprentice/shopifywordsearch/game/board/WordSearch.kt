@@ -239,7 +239,7 @@ class WordSearch {
 
         init {
             WORD_LIST.forEach { word ->
-                if (word.length > BOARD_SIZE) {
+                if (Word.getFormattedLength(word) > BOARD_SIZE) {
                     throw IllegalStateException("A board size of $BOARD_SIZE cannot fit all words in the word list!")
                 }
             }
