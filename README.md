@@ -21,7 +21,7 @@
 ## Demo
 Video: https://youtu.be/RKg9DmWjFz8
 ### Images
-##### Please check out the demo too - it shows a lot of animations, orientation changes, and dark mode
+##### Please check out the demo video too - it shows a lot of animations, orientation changes, and dark mode
 No words found             |  Some words Found         |  Game over
 :-------------------------:|:-------------------------:|:-------------------------:|
 <img src="https://imgur.com/vCl5kgA.jpg" alt="No words found" width="300px">  |  <img src="https://imgur.com/fqfH16H.jpg" alt="Some words found" width="300px">   |  <img src="https://imgur.com/teIUHFc.jpg" alt="Game over" width="300px">
