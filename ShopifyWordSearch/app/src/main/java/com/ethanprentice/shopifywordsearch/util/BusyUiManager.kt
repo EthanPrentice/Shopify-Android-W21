@@ -33,6 +33,7 @@ class BusyUiManager {
         rootView?.let {
             val inflater = it.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             inflater.inflate(R.layout.progress_overlay, it, true)
+            activity?.setStatusBarColor(R.color.overlay_dialog)
 
             timeShown = System.currentTimeMillis()
             isShowing = true
@@ -56,10 +57,18 @@ class BusyUiManager {
             }, MIN_SHOW_TIME_MS - (currTime - timeShown))
         }
 
+        hideNow()
+    }
+
+    /**
+     * Overrides the [MIN_SHOW_TIME_MS] and hides the [ProgressBar] immediately
+     */
+    private fun hideNow() {
         val progressView = rootView?.findViewById(R.id.progress_overlay) as? FrameLayout
         progressView ?: return
 
         rootView?.removeView(progressView)
+        activity?.clearStatusBarColor()
         isShowing = false
     }
 
@@ -90,6 +99,9 @@ class BusyUiManager {
     }
 
     fun cleanup() {
+        if (isShowing) {
+            hideNow()
+        }
         rootView = null
         activity = null
         hideHandler.removeCallbacksAndMessages(null)

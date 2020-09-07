@@ -13,6 +13,7 @@ import android.widget.FrameLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.ethanprentice.shopifywordsearch.R
+import com.ethanprentice.shopifywordsearch.WSActivity
 import com.ethanprentice.shopifywordsearch.views.WSButton
 
 
@@ -63,6 +64,12 @@ class GameOverFragment : Fragment() {
         if (requireActivity() !is GameOverActionListener) {
             throw IllegalStateException("GameOverFragment's Activity must implement GameOverActionListener")
         }
+        (requireActivity() as? WSActivity)?.setStatusBarColor(R.color.overlay_dialog)
+    }
+
+    override fun onDetach() {
+        (requireActivity() as? WSActivity)?.clearStatusBarColor()
+        super.onDetach()
     }
 
     /**

@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatCallback
+import androidx.core.content.ContextCompat
 import com.ethanprentice.shopifywordsearch.util.BusyUiManager
 
 abstract class WSActivity : AppCompatActivity(), AppCompatCallback {
@@ -47,7 +48,13 @@ abstract class WSActivity : AppCompatActivity(), AppCompatCallback {
         }
     }
 
-    protected fun setStatusBarColor() {
+    fun setStatusBarColor(resId: Int) {
+        val color = ContextCompat.getColor(this, resId)
+        window?.statusBarColor = color
+    }
 
+    fun clearStatusBarColor() {
+        val color = ContextCompat.getColor(this, android.R.color.transparent)
+        window?.statusBarColor = color
     }
 }
